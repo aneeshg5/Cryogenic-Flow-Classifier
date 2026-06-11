@@ -5,7 +5,7 @@
 | Phase | Module | Status | Tests |
 |-------|--------|--------|-------|
 | 1 | `void_fraction.py` | ✅ Complete | 5/5 passing |
-| 2 | `sensor_sim.py` | ⬜ Not Started | — |
+| 2 | `sensor_sim.py` | ✅ Complete | 4/4 passing |
 | 3 | `flow_regime.py` | ⬜ Not Started | — |
 | 4 | `demo.py` + visualizations | ⬜ Not Started | — |
 | 5 | `README.md` + `requirements.txt` | ⬜ Not Started | — |
@@ -44,14 +44,29 @@
 
 ---
 
-## Phase 2: `sensor_sim.py` — ⬜ Not Started
+## Phase 2: `sensor_sim.py` — ✅ Complete
 
 Synthetic capacitance signal generator for slug, intermittent, and annular flow regimes. Makes the full pipeline runnable without ANSYS CFD data.
 
-**Key signals to generate:**
-- Slug: base VF ~0.3, Gaussian-enveloped spikes at 2–5 Hz driving VF → 0.8–1.0, σ=0.02 noise
-- Intermittent: base VF ~0.5, oscillations at 3–8 Hz, σ=0.015 noise
-- Annular: VF ~0.85–0.95, slow sinusoidal drift at 0.5–1 Hz, σ=0.005 noise
+**Signal design (all converted to capacitance via `C = C_L − VF × (C_L − C_G)`):**
+
+| Regime | Base VF | Dynamics | Noise σ |
+|---|---|---|---|
+| Slug | 0.3 | Gaussian spikes, height 0.4–0.6, width σ=0.02s, rate 2–5 Hz | 0.02 |
+| Intermittent | 0.5 | Sinusoidal ±0.15 at 3–8 Hz + small spikes | 0.015 |
+| Annular | 0.85–0.95 | Slow sinusoidal drift ±0.03 at 0.5–1 Hz | 0.005 |
+
+**Ordering guarantee (by construction, not seed-dependent):**
+- Mean capacitance: slug > intermittent > annular (slug max mean VF ≈ 0.44 < intermittent min ≈ 0.50)
+- Variance: slug (tall narrow spikes) > intermittent (sinusoidal) > annular (slow drift)
+
+**Tests (`instrumentation/tests/test_sensor_sim.py`):**
+- `test_signal_length` — `len == int(duration_s * sample_rate_hz)` for all three regimes
+- `test_signal_regime_ordering` — mean capacitance: slug > intermittent > annular
+- `test_variance_ordering` — variance: slug > intermittent > annular
+- `test_reproducibility` — same seed → bitwise-identical output
+
+**Test results:** 4/4 passing. Full suite 9/9 (no regressions in Phase 1).
 
 ---
 
