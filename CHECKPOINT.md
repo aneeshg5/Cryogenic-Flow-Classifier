@@ -8,7 +8,7 @@
 | 2 | `sensor_sim.py` | ✅ Complete | 4/4 passing |
 | 3 | `flow_regime.py` | ✅ Complete | 4/4 passing |
 | 4 | `demo.py` + visualizations | ✅ Complete | 5 figures generated |
-| 5 | `README.md` + `requirements.txt` | ⬜ Not Started | — |
+| 5 | `README.md` + `requirements.txt` | ✅ Complete | — |
 
 ---
 
@@ -124,9 +124,14 @@ End-to-end showcase producing 5 figures in `instrumentation/outputs/`.
 
 ---
 
-## Phase 5: `README.md` + `requirements.txt` — ⬜ Not Started
+## Phase 5: `README.md` + `requirements.txt` — ✅ Complete
 
-Software-engineer-facing README and dependency file.
+Top-level README targeting software/ML engineers with no aerospace background.
+Covers: problem statement, pipeline ASCII diagram, flow regime descriptions, quickstart,
+4 inline output figures, technical details table, project structure, and authorship.
+
+`instrumentation/requirements.txt` specifies all runtime + test dependencies.
+Note: the PyPI package is `fuzzy-c-means` (not `fcmeans`) — corrected from CLAUDE.md spec.
 
 ---
 
