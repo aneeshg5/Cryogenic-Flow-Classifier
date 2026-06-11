@@ -1,6 +1,6 @@
 # ECLIPSE — Cryogenic Flow Instrumentation
 
-Python implementation of the capacitance sensor pipeline from UIUC's NASA Human Lander Challenge (HuLC 2026) submission. It identifies the flow regime inside a cryogenic propellant transfer line in real time using only an electrical signal.
+Implementation of the capacitance sensor pipeline from UIUC's NASA Human Lander Challenge (2025) submission. It identifies the flow regime inside a cryogenic propellant transfer line in real time using only an electrical signal.
 
 **Why it matters:** Transferring liquid oxygen or liquid methane in microgravity creates unpredictable two-phase flow. Knowing which regime is active (slug, intermittent, annular) is required for safe engine start during Artemis-era missions.
 
@@ -64,7 +64,3 @@ pytest instrumentation/tests/ -v
 ```
 
 13 tests covering physics invariants, feature extraction correctness, and classifier relabeling.
-
-## My role
-
-Instrumentation Team Lead — I designed the sensor algorithm, void fraction pipeline, and flow regime identification method described in Section V of the technical paper (`paper/HuLC_Tech_Paper.pdf`).
