@@ -7,7 +7,7 @@
 | 1 | `void_fraction.py` | ✅ Complete | 5/5 passing |
 | 2 | `sensor_sim.py` | ✅ Complete | 4/4 passing |
 | 3 | `flow_regime.py` | ✅ Complete | 4/4 passing |
-| 4 | `demo.py` + visualizations | ⬜ Not Started | — |
+| 4 | `demo.py` + visualizations | ✅ Complete | 5 figures generated |
 | 5 | `README.md` + `requirements.txt` | ⬜ Not Started | — |
 
 ---
@@ -104,16 +104,23 @@ Feature extraction + Fuzzy c-means classifier. Refactor of `Instrumentation/clus
 
 ---
 
-## Phase 4: `demo.py` — ⬜ Not Started
+## Phase 4: `demo.py` — ✅ Complete
 
-End-to-end showcase producing 5 figures in `instrumentation/outputs/`. Depends on Phases 1–3 all passing tests.
+End-to-end showcase producing 5 figures in `instrumentation/outputs/`.
 
-**Figures:**
-1. `signal_examples.png` — 3-panel time series per regime
-2. `void_fraction_pipeline.png` — raw C → corrected void fraction %
-3. `flow_regime_map_3d.png` — 3D scatter, ANSYS + synthetic overlaid
-4. `flow_regime_map_2d.png` — 2-panel 2D projections
-5. `regime_distribution.png` — before/after GPR pie charts
+**Figures generated:**
+1. `signal_examples.png` — 3-panel time series per regime (1s each, title shows mean VF and variance)
+2. `void_fraction_pipeline.png` — raw C → corrected void fraction % with equation annotations
+3. `flow_regime_map_3d.png` — 3D scatter (ANSYS ● + Synthetic ▲), log-transformed variance/kurtosis
+4. `flow_regime_map_2d.png` — 2-panel 2D projections, same coloring
+5. `regime_distribution.png` — before/after GPR augmentation pie charts
+
+**Key implementation notes:**
+- `sys.path.insert(0, project_root)` at top of demo.py so it runs as `python instrumentation/demo.py` from any working directory
+- Scatter plots use log10-transformed variance and kurtosis (both axes span 5+ orders of magnitude) with a combined StandardScaler fit on ANSYS + synthetic features
+- ANSYS points use true time-based labels (not FCM labels) for scatter visualization; FCM labels are reported in the pipeline step only
+- Cluster separation (slug/annular centroid Euclidean distance in normalized space) = 3.69
+- Package `fuzzy-c-means` on PyPI (not `fcmeans`) for `from fcmeans import FCM`; added to requirements.txt as `fuzzy-c-means>=1.5`
 
 ---
 
