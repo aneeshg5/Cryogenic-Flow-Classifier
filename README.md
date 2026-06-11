@@ -2,7 +2,7 @@
 
 Implementation of the capacitance sensor pipeline from UIUC's NASA Human Lander Challenge (2025) submission. It identifies the flow regime inside a cryogenic propellant transfer line in real time using only an electrical signal.
 
-**Why it matters:** Transferring liquid oxygen / methane in microgravity creates unpredictable two-phase flow. Knowing which regime is active (slug, intermittent, annular) is required for safe engine start during Artemis-era missions.
+**Why it matters:** Transferring liquid oxygen / methane in microgravity creates unpredictable two-phase flow. Knowing which regime is active (slug, intermittent, annular) is required for safe engine start for Artemis missions.
 
 ---
 
