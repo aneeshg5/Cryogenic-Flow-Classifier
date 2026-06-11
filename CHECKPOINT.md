@@ -6,7 +6,7 @@
 |-------|--------|--------|-------|
 | 1 | `void_fraction.py` | ✅ Complete | 5/5 passing |
 | 2 | `sensor_sim.py` | ✅ Complete | 4/4 passing |
-| 3 | `flow_regime.py` | ⬜ Not Started | — |
+| 3 | `flow_regime.py` | ✅ Complete | 4/4 passing |
 | 4 | `demo.py` + visualizations | ⬜ Not Started | — |
 | 5 | `README.md` + `requirements.txt` | ⬜ Not Started | — |
 
@@ -70,15 +70,37 @@ Synthetic capacitance signal generator for slug, intermittent, and annular flow 
 
 ---
 
-## Phase 3: `flow_regime.py` — ⬜ Not Started
+## Phase 3: `flow_regime.py` — ✅ Complete
 
 Feature extraction + Fuzzy c-means classifier. Refactor of `Instrumentation/clustering.ipynb`.
 
-**Critical implementation notes:**
+**Functions implemented:**
+
+| Function | Purpose |
+|---|---|
+| `load_ansys_data(csv_path)` | Load CSV, scale time ×0.01, assign regime labels, cap annular at 3.5s |
+| `augment_with_gpr(df_regime, n_points_between)` | GPR interpolation with RBF+WhiteKernel, replicates notebook exactly |
+| `extract_features(capacitance, window_size, step_size)` | Windowed [mean, variance, kurtosis] — kurtosis via `moment(x, 4)` |
+| `fit_classifier(features, n_clusters, random_state)` | StandardScaler + FCM(3) + cluster relabeling. Returns 4-tuple including label_map |
+| `predict_regime(features, fcm, scaler, label_map)` | Inference on new features via `fcm.predict()` → raw indices → relabeled |
+| `FlowRegimeClassifier` | sklearn-style wrapper: `fit`, `predict`, `predict_proba`, `regime_name` |
+
+**Key implementation notes:**
 - Kurtosis: `scipy.stats.moment(x, moment=4)` (raw 4th central moment, not Fisher-corrected)
 - ANSYS time scaling: ×0.01, regime cutoffs at 0.85s / 1.5s / 3.5s cap
 - GPR augmentation on slug + intermittent only, `n_points_between=2`
-- FCM relabeling: highest mean C → Slug (label 0), lowest mean C → Annular (label 2)
+- FCM relabeling: `cluster_means` sorted ascending; [0]→label 2 (Annular), [2]→label 0 (Slug)
+- `fit_classifier` returns 4-tuple `(fcm, scaler, labels, label_map)` — extended from spec to enable inference
+- `fcm.predict(X)` returns hard labels; `fcm.soft_predict(X)` returns membership matrix
+- Package name: `fuzzy-c-means` on PyPI (not `fcmeans`); import as `from fcmeans import FCM`
+
+**Tests (`instrumentation/tests/test_flow_regime.py`):**
+- `test_extract_features_shape` — `n_windows = n // window_size` for non-overlapping
+- `test_extract_features_mean` — mean feature of constant signal equals that constant
+- `test_classifier_three_regimes` — fit on ANSYS+GPR data produces exactly 3 distinct labels
+- `test_regime_relabeling` — slug cluster (label 0) has higher mean capacitance than annular (label 2)
+
+**Test results:** 4/4 passing. Full suite 13/13 (no regressions).
 
 ---
 
