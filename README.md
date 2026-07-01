@@ -25,9 +25,9 @@ Raw capacitance signal
 ```
 
 **Flow regimes**
-- **Slug** — intermittent large bubbles in liquid-dominated flow; high capacitance, high variance
-- **Intermittent** — transitional; moderate capacitance, moderate variance
-- **Annular** — stable vapor core, thin liquid wall film; low capacitance, smooth signal
+- **Slug** - intermittent large bubbles in liquid-dominated flow; high capacitance, high variance
+- **Intermittent** - transitional; moderate capacitance, moderate variance
+- **Annular** - stable vapor core, thin liquid wall film; low capacitance, smooth signal
 
 ## Quickstart
 
@@ -41,7 +41,7 @@ Figures are saved to `instrumentation/outputs/`.
 ## Output
 
 ![Flow Regime Map](instrumentation/outputs/flow_regime_map_3d.png)
-*3D feature space — ANSYS CFD windows colored by FCM-assigned regime*
+*3D feature space: ANSYS CFD windows colored by FCM-assigned regime*
 
 ![Signal Examples](instrumentation/outputs/signal_examples.png)
 *One-second capacitance traces per regime: slug is spiky, annular is smooth*
