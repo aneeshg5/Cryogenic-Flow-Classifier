@@ -1,4 +1,4 @@
-# ECLIPSE — Cryogenic Flow Instrumentation
+# ECLIPSE: Cryogenic Flow Instrumentation
 
 Implementation of the capacitance sensor pipeline from UIUC's NASA Human Lander Challenge (2026) submission. It identifies the flow regime inside a cryogenic propellant transfer line in real time using only an electrical signal.
 
